@@ -1,9 +1,9 @@
 package xyz.ls.sjtuforum.schedule;
 
 import xyz.ls.sjtuforum.cache.HotTagCache;
-import xyz.ls.sjtuforum.mapper.QuestionMapper;
-import xyz.ls.sjtuforum.model.Question;
-import xyz.ls.sjtuforum.model.QuestionExample;
+import xyz.ls.sjtuforum.mapper.PostMapper;
+import xyz.ls.sjtuforum.model.Post;
+import xyz.ls.sjtuforum.model.PostExample;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
@@ -18,7 +18,7 @@ import java.util.*;
 public class HotTagTasks {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private PostMapper postMapper;
 
     @Autowired
     private HotTagCache hotTagCache;
@@ -28,19 +28,19 @@ public class HotTagTasks {
         int offset = 0;
         int limit = 20;
         log.info("hotTagSchedule start {}", new Date());
-        List<Question> list = new ArrayList<>();
+        List<Post> list = new ArrayList<>();
 
         Map<String, Integer> priorities = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
-            list = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, limit));
-            for (Question question : list) {
-                String[] tags = StringUtils.split(question.getTag(), ",");
+            list = postMapper.selectByExampleWithRowbounds(new PostExample(), new RowBounds(offset, limit));
+            for (Post post : list) {
+                String[] tags = StringUtils.split(post.getTag(), ",");
                 for (String tag : tags) {
                     Integer priority = priorities.get(tag);
                     if (priority != null) {
-                        priorities.put(tag, priority + 5 + question.getCommentCount());
+                        priorities.put(tag, priority + 5 + post.getCommentCount());
                     } else {
-                        priorities.put(tag, 5 + question.getCommentCount());
+                        priorities.put(tag, 5 + post.getCommentCount());
                     }
                 }
             }

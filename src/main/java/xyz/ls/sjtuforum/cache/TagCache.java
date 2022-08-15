@@ -35,25 +35,21 @@ public class TagCache {
         talk.setCategoryName("人生经验");
         talk.setTags(Arrays.asList("人在江湖", "学习进阶", "逢考必过", "境外求索", "职场生涯"));
         tagDTOS.add(talk);
-        return tagDTOS;
 
         TagDTO art = new TagDTO();
         art.setCategoryName("文化艺术");
         art.setTags(Arrays.asList("演出活动", "影视品论", "文学交流", "音乐之声", "泛二次元", "宠物花草", "游戏竞技", "摄影天地", "美妆时尚"));
         tagDTOS.add(art);
-        return tagDTOS;
 
         TagDTO sports = new TagDTO();
         sports.setCategoryName("体育运动");
         sports.setTags(Arrays.asList("篮球", "足球", "网球", "羽毛球", "赛艇", "健身", "跑步", "其他运动"));
         tagDTOS.add(sports);
-        return tagDTOS;
 
         TagDTO tech = new TagDTO();
         tech.setCategoryName("数码科技");
         tech.setTags(Arrays.asList("极客时间", "硬件产品", "软件应用"));
         tagDTOS.add(tech);
-        return tagDTOS;
 
         TagDTO info = new TagDTO();
         info.setCategoryName("社会信息");
@@ -75,5 +71,9 @@ public class TagCache {
     public static void main(String[] args) {
         int i = (5 - 1) >>> 1;
         System.out.println(i);
+    }
+
+    public List<String> getHots() {
+        return null;
     }
 }

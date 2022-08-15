@@ -2,7 +2,7 @@ package xyz.ls.sjtuforum.controller;
 
 import xyz.ls.sjtuforum.cache.TagCache;
 import xyz.ls.sjtuforum.dto.PaginationDTO;
-import xyz.ls.sjtuforum.service.SubjectService;
+import xyz.ls.sjtuforum.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private SubjectService questionService;
+    private PostService questionService;
 
     @Autowired
     private TagCache hotTagCache;

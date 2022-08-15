@@ -1,6 +1,6 @@
 package xyz.ls.sjtuforum.controller;
 
-import xyz.ls.sjtuforum.cache.QuestionRateLimiter;
+import xyz.ls.sjtuforum.cache.PostRateLimiter;
 import xyz.ls.sjtuforum.dto.CommentCreateDTO;
 import xyz.ls.sjtuforum.dto.CommentDTO;
 import xyz.ls.sjtuforum.dto.ResultDTO;
@@ -24,7 +24,7 @@ public class CommentController {
     private CommentService commentService;
 
     @Autowired
-    private QuestionRateLimiter questionRateLimiter;
+    private PostRateLimiter questionRateLimiter;
 
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)

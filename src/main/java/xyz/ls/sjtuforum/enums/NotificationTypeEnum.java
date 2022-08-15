@@ -1,7 +1,7 @@
 package xyz.ls.sjtuforum.enums;
 
 public enum NotificationTypeEnum {
-    REPLY_QUESTION(1, "回复了帖子"),
+    REPLY_POST(1, "回复了帖子"),
     REPLY_COMMENT(2, "回复了评论");
 
     private int type;

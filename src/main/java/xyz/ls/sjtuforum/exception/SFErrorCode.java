@@ -2,7 +2,7 @@ package xyz.ls.sjtuforum.exception;
 
 public enum SFErrorCode implements MyErrorCode {
 
-    SUBJECT_NOT_FOUND(2001, "话题不存在"),
+    POST_NOT_FOUND(2001, "话题不存在"),
     TARGET_PARAM_NOT_FOUND(2002, "未选中帖子或评论"),
     NO_LOGIN(2003, "用户未登录"),
     SYS_ERROR(2004, "服务器错误"),

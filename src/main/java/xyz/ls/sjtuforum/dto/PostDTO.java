@@ -4,7 +4,7 @@ import xyz.ls.sjtuforum.model.User;
 import lombok.Data;
 
 @Data
-public class SubjectDTO {
+public class PostDTO {
     private Long id;
     private String title;
     private String description;

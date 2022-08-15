@@ -1,11 +1,11 @@
 package xyz.ls.sjtuforum.controller;
 
-import xyz.ls.sjtuforum.cache.QuestionRateLimiter;
+import xyz.ls.sjtuforum.cache.PostRateLimiter;
 import xyz.ls.sjtuforum.cache.TagCache;
-import xyz.ls.sjtuforum.dto.QuestionDTO;
-import xyz.ls.sjtuforum.model.Subject;
+import xyz.ls.sjtuforum.dto.PostDTO;
+import xyz.ls.sjtuforum.model.Post;
 import xyz.ls.sjtuforum.model.User;
-import xyz.ls.sjtuforum.service.SubjectService;
+import xyz.ls.sjtuforum.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +16,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.security.DeclareRoles;
 import javax.servlet.http.HttpServletRequest;
-
 
 @Controller
 @Slf4j
 public class PublishController {
 
     @Autowired
-    private SubjectService questionService;
+    private PostService postService;
 
     @Autowired
-    private QuestionRateLimiter questionRateLimiter;
+    private PostRateLimiter postRateLimiter;
 
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable(name = "id") Long id,
             Model model) {
-        QuestionDTO question = questionService.getById(id);
-        model.addAttribute("title", question.getTitle());
-        model.addAttribute("description", question.getDescription());
-        model.addAttribute("tag", question.getTag());
-        model.addAttribute("id", question.getId());
+        PostDTO post = postService.getById(id);
+        model.addAttribute("title", post.getTitle());
+        model.addAttribute("description", post.getDescription());
+        model.addAttribute("tag", post.getTag());
+        model.addAttribute("id", post.getId());
         model.addAttribute("tags", TagCache.get());
         return "publish";
     }
@@ -96,18 +94,18 @@ public class PublishController {
             return "publish";
         }
 
-        if (questionRateLimiter.reachLimit(user.getId())) {
+        if (postRateLimiter.reachLimit(user.getId())) {
             model.addAttribute("error", "操作太快");
             return "publish";
         }
 
-        Subject question = new Subject();
-        question.setTitle(title);
-        question.setDescription(description);
-        question.setTag(tag);
-        question.setCreator(user.getId());
-        question.setId(id);
-        questionService.createOrUpdate(question);
+        Post post = new Post();
+        post.setTitle(title);
+        post.setDescription(description);
+        post.setTag(tag);
+        post.setCreator(user.getId());
+        post.setId(id);
+        postService.createOrUpdate(post);
         return "redirect:/";
     }
 }

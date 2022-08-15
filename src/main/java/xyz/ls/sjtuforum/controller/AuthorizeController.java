@@ -65,7 +65,6 @@ public class AuthorizeController {
             return "redirect:/";
         } else {
             log.error("callback get github error,{}", loginUserInfo);
-            // 登录失败，重新登录
             return "redirect:/";
         }
     }

@@ -1,12 +1,12 @@
 package xyz.ls.sjtuforum.controller;
 
 import xyz.ls.sjtuforum.dto.CommentDTO;
-import xyz.ls.sjtuforum.dto.QuestionDTO;
+import xyz.ls.sjtuforum.dto.PostDTO;
 import xyz.ls.sjtuforum.enums.CommentTypeEnum;
 import xyz.ls.sjtuforum.exception.SFErrorCode;
 import xyz.ls.sjtuforum.exception.SFException;
 import xyz.ls.sjtuforum.service.CommentService;
-import xyz.ls.sjtuforum.service.SubjectService;
+import xyz.ls.sjtuforum.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private SubjectService questionService;
+    private PostService questionService;
 
     @Autowired
     private CommentService commentService;
@@ -33,12 +33,11 @@ public class PostController {
         } catch (NumberFormatException e) {
             throw new SFException(SFErrorCode.INVALID_INPUT);
         }
-        QuestionDTO questionDTO = questionService.getById(questionId);
-        List<QuestionDTO> relatedQuestions = questionService.selectRelated(questionDTO);
-        List<CommentDTO> comments = commentService.listByTargetId(questionId, CommentTypeEnum.QUESTION);
-        // 累加阅读数
+        PostDTO postDTO = questionService.getById(questionId);
+        List<PostDTO> relatedQuestions = questionService.selectRelated(postDTO);
+        List<CommentDTO> comments = commentService.listByTargetId(questionId, CommentTypeEnum.SUBJECT);
         questionService.incView(questionId);
-        model.addAttribute("question", questionDTO);
+        model.addAttribute("question", postDTO);
         model.addAttribute("comments", comments);
         model.addAttribute("relatedQuestions", relatedQuestions);
         return "question";

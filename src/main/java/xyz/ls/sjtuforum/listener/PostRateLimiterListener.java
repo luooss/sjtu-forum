@@ -2,11 +2,11 @@ package xyz.ls.sjtuforum.listener;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import xyz.ls.sjtuforum.listener.event.SubjectRateLimiterEvent;
-import xyz.ls.sjtuforum.mapper.SubjectMapper;
+import xyz.ls.sjtuforum.listener.event.PostRateLimiterEvent;
+import xyz.ls.sjtuforum.mapper.PostMapper;
 import xyz.ls.sjtuforum.mapper.UserMapper;
-import xyz.ls.sjtuforum.model.Subject;
-import xyz.ls.sjtuforum.model.Subject;
+import xyz.ls.sjtuforum.model.Post;
+import xyz.ls.sjtuforum.model.PostExample;
 import xyz.ls.sjtuforum.model.User;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-public class SubjectRateLimiterListener implements ApplicationListener<SubjectRateLimiterEvent> {
+public class PostRateLimiterListener implements ApplicationListener<PostRateLimiterEvent> {
 
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
-    private SubjectMapper questionMapper;
+    private PostMapper postMapper;
 
     private static Cache<Long, Integer> disableUsers = CacheBuilder.newBuilder()
             .maximumSize(10)
@@ -34,7 +34,7 @@ public class SubjectRateLimiterListener implements ApplicationListener<SubjectRa
 
     @SneakyThrows
     @Override
-    public void onApplicationEvent(SubjectRateLimiterEvent event) {
+    public void onApplicationEvent(PostRateLimiterEvent event) {
         Integer count = disableUsers.get(event.getUserId(), () -> 0);
         disableUsers.put(event.getUserId(), count + 1);
         log.info("receive rate limit event : {}, count : {}", event.getUserId(), count);
@@ -45,13 +45,13 @@ public class SubjectRateLimiterListener implements ApplicationListener<SubjectRa
                 log.info("disable user {}", event.getUserId());
                 userMapper.updateByPrimaryKey(user);
             }
-            QuestionExample example = new QuestionExample();
+            PostExample example = new PostExample();
             example.createCriteria().andCreatorEqualTo(event.getUserId());
-            List<Subject> questions = questionMapper.selectByExample(example);
-            if (questions != null && questions.size() != 0) {
-                for (Subject question : questions) {
-                    log.info("disable user {} and delete posts {}", event.getUserId(), question.getId());
-                    questionMapper.deleteByPrimaryKey(question.getId());
+            List<Post> posts = postMapper.selectByExample(example);
+            if (posts != null && posts.size() != 0) {
+                for (Post post : posts) {
+                    log.info("disable user {} and delete posts {}", event.getUserId(), post.getId());
+                    postMapper.deleteByPrimaryKey(post.getId());
                 }
             }
         }

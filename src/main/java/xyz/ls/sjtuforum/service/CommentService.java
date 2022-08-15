@@ -26,10 +26,10 @@ public class CommentService {
     private CommentMapper commentMapper;
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private PostMapper postMapper;
 
     @Autowired
-    private QuestionExtMapper questionExtMapper;
+    private PostExtMapper postExtMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -56,9 +56,9 @@ public class CommentService {
             }
 
             // 回复问题
-            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
-            if (question == null) {
-                throw new SFException(SFErrorCode.QUESTION_NOT_FOUND);
+            Post post = postMapper.selectByPrimaryKey(dbComment.getParentId());
+            if (post == null) {
+                throw new SFException(SFErrorCode.POST_NOT_FOUND);
             }
 
             commentMapper.insert(comment);
@@ -70,22 +70,22 @@ public class CommentService {
             commentExtMapper.incCommentCount(parentComment);
 
             // 创建通知
-            createNotify(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(),
-                    NotificationTypeEnum.REPLY_COMMENT, question.getId());
+            createNotify(comment, dbComment.getCommentator(), commentator.getName(), post.getTitle(),
+                    NotificationTypeEnum.REPLY_COMMENT, post.getId());
         } else {
             // 回复问题
-            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
-            if (question == null) {
-                throw new SFException(SFErrorCode.QUESTION_NOT_FOUND);
+            Post post = postMapper.selectByPrimaryKey(comment.getParentId());
+            if (post == null) {
+                throw new SFException(SFErrorCode.POST_NOT_FOUND);
             }
             comment.setCommentCount(0);
             commentMapper.insert(comment);
-            question.setCommentCount(1);
-            questionExtMapper.incCommentCount(question);
+            post.setCommentCount(1);
+            postExtMapper.incCommentCount(post);
 
             // 创建通知
-            createNotify(comment, question.getCreator(), commentator.getName(), question.getTitle(),
-                    NotificationTypeEnum.REPLY_QUESTION, question.getId());
+            createNotify(comment, post.getCreator(), commentator.getName(), post.getTitle(),
+                    NotificationTypeEnum.REPLY_POST, post.getId());
         }
     }
 

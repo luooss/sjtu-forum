@@ -3,7 +3,7 @@ package xyz.ls.sjtuforum.dto;
 import lombok.Data;
 
 @Data
-public class SubjectQueryDTO {
+public class PostQueryDTO {
     private String search;
     private String sort;
     private Long time;

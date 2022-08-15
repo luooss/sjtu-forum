@@ -2,27 +2,18 @@ package xyz.ls.sjtuforum.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.Lists;
-import xyz.ls.sjtuforum.dto.QuestionDTO;
-import xyz.ls.sjtuforum.listener.event.SubjectRateLimiterEvent;
-import xyz.ls.sjtuforum.mapper.SubjectExtMapper;
-import xyz.ls.sjtuforum.mapper.UserMapper;
-import xyz.ls.sjtuforum.model.Subject;
-import xyz.ls.sjtuforum.model.User;
+import xyz.ls.sjtuforum.listener.event.PostRateLimiterEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
-public class QuestionRateLimiter {
+public class PostRateLimiter {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -40,7 +31,7 @@ public class QuestionRateLimiter {
             log.info("user : {} post count : {}", userId, limit);
             boolean isReachLimited = limit >= 2;
             if (isReachLimited) {
-                applicationContext.publishEvent(new SubjectRateLimiterEvent(this, userId));
+                applicationContext.publishEvent(new PostRateLimiterEvent(this, userId));
             }
             return isReachLimited;
         } catch (ExecutionException e) {

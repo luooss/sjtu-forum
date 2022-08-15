@@ -4,10 +4,10 @@ import lombok.Data;
 import org.springframework.context.ApplicationEvent;
 
 @Data
-public class SubjectRateLimiterEvent extends ApplicationEvent {
+public class PostRateLimiterEvent extends ApplicationEvent {
     private Long userId;
 
-    public SubjectRateLimiterEvent(Object source, Long userId) {
+    public PostRateLimiterEvent(Object source, Long userId) {
         super(source);
         this.userId = userId;
     }
