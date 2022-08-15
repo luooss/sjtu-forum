@@ -1,7 +1,7 @@
 # SJTU Forum
-A possibly better student forum for SJTU in the future, but still too far behind to catch up with ShuiYuan She Qu.
-
 A Spring project purely for learning purpose.
+
+A possibly better student forum for SJTU in the future, but still too far behind to catch up with ShuiYuan Forum at the moment.
 
 # Implementation
 - Backend: Spring Boot, MyBatis.
