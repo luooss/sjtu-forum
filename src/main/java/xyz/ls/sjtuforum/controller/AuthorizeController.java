@@ -43,10 +43,10 @@ public class AuthorizeController {
 
     @GetMapping("/callback/{type}")
     public String newCallback(@PathVariable(name = "type") String type,
-            @RequestParam(name = "code") String code,
-            @RequestParam(name = "state", required = false) String state,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+                              @RequestParam(name = "code") String code,
+                              @RequestParam(name = "state", required = false) String state,
+                              HttpServletRequest request,
+                              HttpServletResponse response) {
         UserStrategy userStrategy = userStrategyFactory.getStrategy(type);
         LoginUserInfo loginUserInfo = userStrategy.getUser(code, state);
         if (loginUserInfo != null && loginUserInfo.getId() != null) {

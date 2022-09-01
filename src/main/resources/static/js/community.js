@@ -1,8 +1,4 @@
 /**
- * Created by codedrinker on 2019/6/1.
- */
-
-/**
  * 提交回复
  */
 function post() {
@@ -69,7 +65,7 @@ function collapseComments(e) {
     } else {
         var subCommentContainer = $("#comment-" + id);
         if (subCommentContainer.children().length != 1) {
-            //展开二级评论
+            // 展开二级评论
             comments.addClass("in");
             // 标记二级评论展开状态
             e.setAttribute("data-collapse", "in");

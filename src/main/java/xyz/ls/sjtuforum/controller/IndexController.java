@@ -16,7 +16,7 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private PostService questionService;
+    private PostService postService;
 
     @Autowired
     private TagCache hotTagCache;
@@ -28,7 +28,7 @@ public class IndexController {
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "tag", required = false) String tag,
             @RequestParam(name = "sort", required = false) String sort) {
-        PaginationDTO pagination = questionService.list(search, tag, sort, page, size);
+        PaginationDTO pagination = postService.list(search, tag, sort, page, size);
         List<String> tags = hotTagCache.getHots();
         model.addAttribute("pagination", pagination);
         model.addAttribute("search", search);

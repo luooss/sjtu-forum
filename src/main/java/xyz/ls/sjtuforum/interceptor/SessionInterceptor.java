@@ -25,8 +25,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private NotificationService notificationService;
+
     @Autowired
     private AdService adService;
 
@@ -37,12 +39,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     private String giteeRedirectUri;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         request.getServletContext().setAttribute("giteeRedirectUri", giteeRedirectUri);
         request.getServletContext().setAttribute("githubRedirectUri", githubRedirectUri);
-
         for (AdPosEnum adPos : AdPosEnum.values()) {
             request.getServletContext().setAttribute(adPos.name(), adService.list(adPos.name()));
         }
@@ -68,14 +67,12 @@ public class SessionInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            @Nullable ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
 
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-            @Nullable Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
 
     }
 }

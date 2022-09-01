@@ -43,12 +43,11 @@ public class PostService {
 
         if (StringUtils.isNotBlank(search)) {
             String[] tags = StringUtils.split(search, " ");
-            search = Arrays
-                    .stream(tags)
-                    .filter(StringUtils::isNotBlank)
-                    .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
-                    .filter(StringUtils::isNotBlank)
-                    .collect(Collectors.joining("|"));
+            search = Arrays.stream(tags)
+                           .filter(StringUtils::isNotBlank)
+                           .map(t -> t.replace("+", "").replace("*", "").replace("?", ""))
+                           .filter(StringUtils::isNotBlank)
+                           .collect(Collectors.joining("|"));
         }
 
         PaginationDTO paginationDTO = new PaginationDTO();

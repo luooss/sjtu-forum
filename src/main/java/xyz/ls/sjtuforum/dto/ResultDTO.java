@@ -10,8 +10,8 @@ public class ResultDTO<T> {
     private String message;
     private T data;
 
-    public static ResultDTO errorOf(Integer code, String message) {
-        ResultDTO resultDTO = new ResultDTO();
+    public static ResultDTO<Object> errorOf(Integer code, String message) {
+        ResultDTO<Object> resultDTO = new ResultDTO<Object>();
         resultDTO.setCode(code);
         resultDTO.setMessage(message);
         return resultDTO;

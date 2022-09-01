@@ -40,20 +40,20 @@
                     </li>
                 </ul>
 
-                <div class="media" th:each="question : ${pagination.data}">
+                <div class="media" th:each="post : ${pagination.data}">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                            <img class="media-object img-rounded" th:src="${post.user.avatarUrl}">
                         </a>
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">
-                            <span style="color: #c74747" th:if="${question.sticky >= 1}">[置顶] </span><a
-                                th:href="@{'/question/'+ ${question.id}}" th:text="${question.title}"></a>
+                            <span style="color: #c74747" th:if="${post.sticky >= 1}">[置顶] </span><a
+                                th:href="@{'/post/'+ ${post.id}}" th:text="${post.title}"></a>
                         </h5>
-                        <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 • <span
-                                th:text="${question.viewCount}"></span> 次浏览 • <span
-                                th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
+                        <span class="text-desc"><span th:text="${post.commentCount}"></span> 个回复 • <span
+                                th:text="${post.viewCount}"></span> 次浏览 • <span
+                                th:text="${#dates.format(post.gmtCreate,'yyyy-MM-dd HH:mm')}"></span></span>
                     </div>
                 </div>
                 <nav aria-label="Page navigation">
@@ -92,7 +92,6 @@
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                 <div th:insert="~{notice :: notice}"></div>
-                <!--相关问题-->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>热门标签</h4>

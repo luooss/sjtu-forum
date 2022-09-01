@@ -20,26 +20,26 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private PostService questionService;
+    private PostService postService;
 
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/question/{id}")
-    public String question(@PathVariable(name = "id") String id, Model model) {
-        Long questionId = null;
+    @GetMapping("/post/{id}")
+    public String post(@PathVariable(name = "id") String id, Model model) {
+        Long postId = null;
         try {
-            questionId = Long.parseLong(id);
+            postId = Long.parseLong(id);
         } catch (NumberFormatException e) {
             throw new SFException(SFErrorCode.INVALID_INPUT);
         }
-        PostDTO postDTO = questionService.getById(questionId);
-        List<PostDTO> relatedQuestions = questionService.selectRelated(postDTO);
-        List<CommentDTO> comments = commentService.listByTargetId(questionId, CommentTypeEnum.SUBJECT);
-        questionService.incView(questionId);
-        model.addAttribute("question", postDTO);
+        PostDTO postDTO = postService.getById(postId);
+        List<PostDTO> relatedQuestions = postService.selectRelated(postDTO);
+        List<CommentDTO> comments = commentService.listByTargetId(postId, CommentTypeEnum.SUBJECT);
+        postService.incView(postId);
+        model.addAttribute("post", postDTO);
         model.addAttribute("comments", comments);
         model.addAttribute("relatedQuestions", relatedQuestions);
-        return "question";
+        return "post";
     }
 }

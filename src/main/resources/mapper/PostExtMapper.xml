@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="life.majiang.community.mapper.SubjectExtMapper">
-    <resultMap id="BaseResultMap" type="life.majiang.community.model.Subject">
+<mapper namespace="life.majiang.community.mapper.PostExtMapper">
+    <resultMap id="BaseResultMap" type="life.majiang.community.model.Post">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate"/>
@@ -14,22 +14,22 @@
         <result column="sticky" jdbcType="INTEGER" property="sticky" />
     </resultMap>
 
-    <update id="incView" parameterType="life.majiang.community.model.Subject">
-    update Subject
+    <update id="incView" parameterType="life.majiang.community.model.Post">
+    update Post
     set
     view_count = view_count + #{viewCount,jdbcType=INTEGER}
     where id = #{id}
     </update>
 
-    <update id="incCommentCount" parameterType="life.majiang.community.model.Subject">
-    update Subject
+    <update id="incCommentCount" parameterType="life.majiang.community.model.Post">
+    update Post
     set
     comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
     </update>
 
-    <select id="selectRelated" parameterType="life.majiang.community.model.Subject" resultMap="BaseResultMap">
-        select * from Subject
+    <select id="selectRelated" parameterType="life.majiang.community.model.Post" resultMap="BaseResultMap">
+        select * from Post
         <where>
             <if test="id != null">
                 and id != #{id}
@@ -41,9 +41,9 @@
         order by gmt_create desc limit 20
     </select>
 
-    <select id="countBySearch" parameterType="life.majiang.community.dto.SubjectQueryDTO"
+    <select id="countBySearch" parameterType="life.majiang.community.dto.PostQueryDTO"
             resultType="java.lang.Integer">
-        select count(*) from Subject
+        select count(*) from Post
         <where>
             <if test="search != null and search != ''">
                 and title regexp #{search}
@@ -63,13 +63,13 @@
         </where>
     </select>
 
-    <select id="selectSticky" parameterType="life.majiang.community.dto.SubjectQueryDTO"
+    <select id="selectSticky" parameterType="life.majiang.community.dto.PostQueryDTO"
             resultMap="BaseResultMap">
-        select * from Subject where sticky > 0 order by sticky desc, gmt_create desc
+        select * from Post where sticky > 0 order by sticky desc, gmt_create desc
     </select>
-    <select id="selectBySearch" parameterType="life.majiang.community.dto.SubjectQueryDTO"
+    <select id="selectBySearch" parameterType="life.majiang.community.dto.PostQueryDTO"
             resultMap="BaseResultMap">
-        select * from Subject
+        select * from Post
         <where>
             <if test="search != null and search != ''">
                 and title regexp #{search}
